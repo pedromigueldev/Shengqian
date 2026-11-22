@@ -1,0 +1,17 @@
+root = true
+
+[*.cs]
+# Impede que a chave abra em uma nova linha (estilo JavaScript/K&R)
+csharp_new_line_before_open_brace = none
+
+# Opcional: mantém else, catch e finally na mesma linha do fechamento '}'
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+csharp_new_line_before_finally = false
+
+[*.cs]
+# Define o tamanho do tab como 4 espaços
+indent_size = 4
+tab_width = 4
+# 'space' força o uso de espaços em vez de tabulação
+indent_style = space

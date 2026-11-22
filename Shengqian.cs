@@ -2,46 +2,36 @@
 
 #:sdk Microsoft.NET.Sdk.Web
 #:property TargetFramework=net11.0
-#:property EmitCompilerGeneratedFiles=true
 #:property PublishAot=false
 
 #:package Microsoft.AspNetCore.OpenApi@11.0.0
+#:package Microsoft.EntityFrameworkCore.Design@11.0.0
 #:package Microsoft.EntityFrameworkCore.Sqlite@11.0.0
 
 #:include Vendor/SmartCtor/SmartCtor.cs
-#:include Controllers/*.cs
-#:include Domain/*.cs
-#:include Dto/*.cs
-#:include DbContext.cs
+#:include src/**/*.cs
+#:include Migrations/**/*.cs
 
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
-using Shengqian.Domain;
+using Shengqian.AppDbContext;
 
-var builder = WebApplication.CreateSlimBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
 
-builder.Services.ConfigureHttpJsonOptions(c =>
-{
-    c.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
-});
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlite("Data Source=Shenqian.db");
-});
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidProgramException("DefaultConnection is not present...");
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    _ = db.Database.EnsureCreated();
+    app.MapOpenApi();
 }
 
-app.MapGet("/api/hello", () => "hello");
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
-
-[JsonSerializable(typeof(Transaction))]
-[JsonSerializable(typeof(Category))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext {}

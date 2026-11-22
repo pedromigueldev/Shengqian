@@ -12,6 +12,6 @@ public partial record Transaction (
     [Required] TransactionId Id,
     [Required, Range(0, 100)] decimal Amount, 
     [Required, StringLength(10, MinimumLength = 6)] string Description, 
-    [Required] ICollection<Category> Categories,
+    ICollection<Category> Categories,
     [Required] DateTime Date
 );
