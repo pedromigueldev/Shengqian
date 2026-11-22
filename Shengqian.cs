@@ -13,10 +13,14 @@
 
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;
+using Shengqian.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new OptionalJsonConverterFactory());
+    });
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidProgramException("DefaultConnection is not present...");
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 

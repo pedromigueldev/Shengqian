@@ -5,7 +5,7 @@ using SmartCtor.Monadics;
 
 namespace Shengqian.Dto;
 
-[SmartCtor]
+[SmartCtor(GenerateOptional = true)]
 public partial record TransactionCreateDto(
     [Required, Range(0, int.MaxValue)]
     decimal Amount, 

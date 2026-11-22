@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;
+using Shengqian.Domain;
 using Shengqian.Dto;
 using Shengqian.Extensions;
 
@@ -25,5 +26,22 @@ public class TransactionsController(IDbContextFactory<ApplicationDbContext> dbCo
                     : Ok(value.Select(f => f.Unwrap())),
                 err => (ActionResult)Results.InternalServerError(err)
             );
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> Post(int id, [FromBody] TransactionCreateDtoOptional transactionCreateDtoOptional, CancellationToken cancellationToken) {
+        Console.WriteLine($"Patch is {transactionCreateDtoOptional}");
+        using var db = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+
+        var stubId = TransactionId.Create(id);
+        if (stubId is not TransactionId Id) return BadRequest(stubId.UnwrapErr());
+
+        var row = await db.Transactions.FindAsync([Id], cancellationToken: cancellationToken);
+        if (row is not { } Transaction) return NotFound(new { Message = $"Transaction of id {id} does not exist..."});
+
+        Console.WriteLine($"Patch is {transactionCreateDtoOptional}");
+        Console.WriteLine($"Database is {Transaction}");
+
+        return Ok(transactionCreateDtoOptional);
     }
 }
