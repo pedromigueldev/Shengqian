@@ -10,7 +10,6 @@
 
 #:include Vendor/SmartCtor/SmartCtor.cs
 #:include src/**/*.cs
-#:include Migrations/**/*.cs
 
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;
