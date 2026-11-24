@@ -13,13 +13,13 @@
 #:property ApplicationId=com.companyname.shengqian.android
 #:property ApplicationDisplayVersion=1.0
 #:property ApplicationVersion=1
-#:property WindowsPackageType=None
 #:property SupportedOSPlatformVersion=24.0
 
 #:package Microsoft.Maui.Controls@11.0.0
 #:package Microsoft.Extensions.Logging.Debug@11.0.0
 
 #:include Src/**/*.cs
+#:include ../Shengqian.Domain/Shengqian.Domain.cs
 
 using Microsoft.Extensions.Logging;
 
