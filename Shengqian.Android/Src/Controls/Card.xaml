@@ -1,0 +1,27 @@
+<ContentView x:Class="Shengqian.Android.Controls.Card">
+    <Border Padding="16"
+            StrokeThickness="1"
+            Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+            StrokeShape="RoundRectangle 12">
+        <Grid ColumnDefinitions="*,Auto"
+              RowDefinitions="Auto,Auto"
+              ColumnSpacing="12"
+              RowSpacing="4">
+            <Label x:Name="TitleLabel"
+                   FontSize="16"
+                   FontAttributes="Bold" />
+            <Label x:Name="DescriptionLabel"
+                   Grid.Row="1"
+                   FontSize="13"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray300}}" />
+            <Label x:Name="DetailLabel"
+                   Grid.Column="1"
+                   Grid.RowSpan="2"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Primary}" />
+        </Grid>
+    </Border>
+</ContentView>

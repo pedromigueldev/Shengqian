@@ -4,7 +4,7 @@
     Title="Shengqian.Android">
 
     <ShellContent
-        Title="Home"
+        Title="Shengqian"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
