@@ -12,7 +12,7 @@
                 SemanticProperties.Description="dot net bot riding a rocket" />
 
             <Label
-                Text="Hello, World!"
+                Text="Hello, World! File-based app!"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 
