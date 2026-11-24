@@ -4,7 +4,7 @@ using SmartCtor.Attribute;
 using Shengqian.Domain;
 using SmartCtor.Monadics;
 
-namespace Shengqian.Dto;
+namespace Shengqian.Domain.Dto;
 
 [SmartCtor]
 public partial record CategoryCreateDto(

@@ -1,0 +1,11 @@
+<Shell
+    x:Class="Shengqian.Android.AppShell"
+    xmlns:local="clr-namespace:Shengqian.Android"
+    Title="Shengqian.Android">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+</Shell>

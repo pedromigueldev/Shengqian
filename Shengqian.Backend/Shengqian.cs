@@ -8,8 +8,8 @@
 #:package Microsoft.EntityFrameworkCore.Design@11.0.0
 #:package Microsoft.EntityFrameworkCore.Sqlite@11.0.0
 
-#:include Vendor/SmartCtor/SmartCtor.cs
-#:include src/**/*.cs
+#:include Src/**/*.cs
+#:include ../Shengqian.Domain/Shengqian.Domain.cs
 
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;

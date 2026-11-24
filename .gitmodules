@@ -1,0 +1,3 @@
+[submodule "Shengqian.Vendor/SmartCtor"]
+	path = Shengqian.Vendor/SmartCtor
+	url = https://github.com/pedromigueldev/SmartCtor.git

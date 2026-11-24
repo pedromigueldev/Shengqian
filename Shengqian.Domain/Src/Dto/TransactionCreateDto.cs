@@ -3,7 +3,7 @@ using Shengqian.Domain;
 using SmartCtor.Attribute;
 using SmartCtor.Monadics;
 
-namespace Shengqian.Dto;
+namespace Shengqian.Domain.Dto;
 
 [SmartCtor(GenerateOptional = true)]
 public partial record TransactionCreateDto(

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;
 using Shengqian.Domain;
-using Shengqian.Dto;
+using Shengqian.Domain.Dto;
 using Shengqian.Extensions;
 
 namespace Shengqian.Controllers;
