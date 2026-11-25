@@ -7,7 +7,7 @@ namespace Shengqian.Domain;
 [SmartCtor]
 public partial record TransactionId([Range(minimum: 0, maximum: int.MaxValue)] int Key);
 
-[SmartCtor]
+[SmartCtor(GenerateOptional = true)]
 public partial record Transaction (
     [Required] TransactionId Id,
     [Required, Range(0, 100)] decimal Amount, 
