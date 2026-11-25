@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;
 using Shengqian.Domain;
 using Shengqian.Domain.Dto;
+using Shengqian.Domain.Extensions;
 using Shengqian.Extensions;
+using SmartCtor.Monadics;
 
 namespace Shengqian.Controllers;
 
@@ -11,37 +14,112 @@ namespace Shengqian.Controllers;
 [Route("[controller]")]
 public class TransactionsController(IDbContextFactory<ApplicationDbContext> dbContextFactory) : ControllerBase {
     [HttpGet]
-    public async Task<ActionResult<List<TransactionCreateDto>>> Get(CancellationToken cancellationToken) {
-        
-        using var db = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+    public async Task<ActionResult<List<TransactionGetAllDto>>> Get(CancellationToken cancellationToken) {
+        var res = await dbContextFactory.CreateDbContextAsync(cancellationToken)
+        .UsingAsync(async db => {
+            return await db.Transactions
+                .Include(e => e.Categories)
+                .ToListAsync(cancellationToken)
+                .TryMapAsync(e => e.Select(e => DtoMapper.ToGetAllDto(e)));
+        });
 
-        var list = await db.Transactions
-            .ToListAsync(cancellationToken)
-            .TryMapAsync(e => e.Select(e => DtoMapper.ToDomainDto(e)));
+        return res.Match(
+            s => Ok(s),
+            e => Problem(detail: res.UnwrapErr().Exception.Message)
+        );
+    }
 
-        return list
-            .Match(
-                value => value.Any(f => f is not TransactionCreateDto)
-                    ? Problem(detail: "Server returned malformed data")
-                    : Ok(value.Select(f => f.Unwrap())),
-                err => (ActionResult)Results.InternalServerError(err)
-            );
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TransactionGetAllDto>> GetById(int id, CancellationToken cancellationToken) {
+        var res = await dbContextFactory.CreateDbContextAsync(cancellationToken)
+        .UsingAsync(async db => {
+            var stubId = TransactionId.Create(id);
+            if (stubId is not TransactionId Id) return BadRequest(stubId.UnwrapErr());
+
+            var row = await db.Transactions.AsNoTracking()
+                .Where(e => e.Id == Id)
+                .Include(e => e.Categories)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (row is null) return NotFound(new ValidationResult($"Transaction of id {id} does not exist...", [nameof(id)]));
+
+            return (ActionResult)Ok(row.ToGetAllDto());
+        });
+
+        return res.Match(s => s, e => Problem(detail: e.Exception.Message));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<TransactionCreateDto>> Post([FromBody] TransactionCreateDto tdto, CancellationToken cancellationToken) {
+        var res = await dbContextFactory.CreateDbContextAsync(cancellationToken)
+        .UsingAsync(async db => {
+            var categoryIds = tdto.Categories.Distinct().ToList();
+            var categories = await db.Categories
+                .Where(e => categoryIds.Contains(e.Id))
+                .ToListAsync(cancellationToken);
+
+            var missing = categoryIds.Except(categories.Select(e => e.Id)).Select(e => e.Key).ToList();
+            if (missing.Count > 0)
+                return NotFound(new ValidationResult($"Categories of id {string.Join(", ", missing)} do not exist...", [nameof(tdto.Categories)]));
+
+            var created = tdto.ToDomain(categories);
+            if (created is not Transaction transaction) return BadRequest(created.UnwrapErr());
+
+            db.Transactions.Add(transaction);
+            await db.SaveChangesAsync(cancellationToken);
+            return (ActionResult)Created(nameof(Get), transaction.ToGetAllDto());
+        });
+
+        return res.Match(s => s, e => Problem(detail: e.Exception.Message));
     }
 
     [HttpPatch("{id}")]
-    public async Task<ActionResult> Post(int id, [FromBody] TransactionCreateDtoOptional transactionCreateDtoOptional, CancellationToken cancellationToken) {
-        Console.WriteLine($"Patch is {transactionCreateDtoOptional}");
-        using var db = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+    public async Task<ActionResult> Patch(int id, [FromBody] TransactionCreateDtoOptional tdto, CancellationToken cancellationToken) {
+        var res = await dbContextFactory.CreateDbContextAsync(cancellationToken)
+        .UsingAsync(async db => {
 
-        var stubId = TransactionId.Create(id);
-        if (stubId is not TransactionId Id) return BadRequest(stubId.UnwrapErr());
+            var stubId = TransactionId.Create(id);
+            if (stubId is not TransactionId Id) return BadRequest(stubId.UnwrapErr());
 
-        var row = await db.Transactions.FindAsync([Id], cancellationToken: cancellationToken);
-        if (row is not { } Transaction) return NotFound(new { Message = $"Transaction of id {id} does not exist..."});
+            var row = await db.Transactions
+                .Where(e => e.Id == Id)
+                .Include(e => e.Categories)
+                .FirstOrDefaultAsync(cancellationToken);
 
-        Console.WriteLine($"Patch is {transactionCreateDtoOptional}");
-        Console.WriteLine($"Database is {Transaction}");
+            if (row is null) return NotFound(new ValidationResult($"Transaction of id {id} does not exist...", [nameof(id)]));
 
-        return Ok(transactionCreateDtoOptional);
+            // null => field not sent, keep current categories; [] => explicitly cleared
+            List<CategoryId>? categoryIds = tdto.Categories switch {
+                Option<List<CategoryId>> op => op switch {
+                    List<CategoryId> list => [.. list.Distinct()],
+                    None => []
+                },
+                None => null
+            };
+
+            ICollection<Category> categories = row.Categories;
+            if (categoryIds is not null) {
+                categories = await db.Categories
+                    .Where(e => categoryIds.Contains(e.Id))
+                    .ToListAsync(cancellationToken);
+
+                var missing = categoryIds.Except(categories.Select(e => e.Id)).Select(e => e.Key).ToList();
+                if (missing.Count > 0)
+                    return NotFound(new ValidationResult($"Categories of id {string.Join(", ", missing)} do not exist...", [nameof(tdto.Categories)]));
+            }
+
+            var patched = row.CreatePathced(new None(), tdto.Amount, tdto.Description, new(categories), tdto.TransactionDate);
+            if (patched is List<ValidationResult> validationResults) return validationResults.ToValidationProblem();
+            var transaction = patched.Unwrap();
+
+            db.UpdateImmutable(transaction);
+            await db.SaveChangesAsync(cancellationToken);
+            return Ok(row.ToGetAllDto());
+        });
+
+        return res.Match(
+            e => e,
+            e => Problem(detail: e.Exception.Message)
+        );
     }
 }
