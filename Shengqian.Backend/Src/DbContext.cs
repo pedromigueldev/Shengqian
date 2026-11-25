@@ -16,4 +16,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         configurationBuilder.Properties<CategoryId>().HaveConversion<CategoryIdConverter>();
         configurationBuilder.Properties<TransactionId>().HaveConversion<TransactionIdConverter>();
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Transaction>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd()
+            .HasSentinel(new TransactionId(0));
+    }
 }

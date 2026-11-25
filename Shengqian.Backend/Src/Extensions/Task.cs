@@ -30,4 +30,13 @@ public static class TaskFunctionalExtensions
         }
         catch (Exception ex) when (ex is not OperationCanceledException) { return new TaskFail(ex); }
     }
+
+    public static async Task<U> MatchAsync<InputS, InputE, U>(this Task<Result<InputS, InputE>> self, Func<InputS, U> onSuccess, Func<InputE, U> onError) 
+          where InputS : notnull
+          where InputE : notnull
+    => await self switch
+    {
+        InputS some => onSuccess(some),
+        InputE error => onError(error)
+    };
 }
