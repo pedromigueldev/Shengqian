@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "C#: mobile Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Shengqian.Android/Shengqian.Android.cs"
+        },
+        {
             "name": "C#: backend",
             "type": "dotnet",
             "request": "launch",

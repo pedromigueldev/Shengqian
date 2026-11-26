@@ -6,7 +6,7 @@ public readonly record struct CardData(string Title, string Description, string 
 public static class ModelImpl {
     extension(CategoryCreateDto self) {
         public CardData ToCardIitem () {
-            return new CardData (self.Name, self.Description, $"{self.Transactions.Count} transactions");
+            return new CardData (self.Name, self.Description, $"{10} transactions");
         }
     }
 }

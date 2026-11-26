@@ -7,14 +7,14 @@ namespace Shengqian.Android;
 public partial class MainPage : ContentPage
 {
 	private List<CategoryCreateDto> Categories { get; init; } = [
-		new("Groceries", "Supermarket", [new (1), new (2)]),
-		new("Transport", "Bus pass", [new (1), new (2)]),
-		new("Coffee", "Morning espresso", [new (1), new (2)]),
-		new("Rent", "Monthly rent", [new (1), new (2)]),
-		new("Internet", "Fiber plan", [new (1), new (2)])
+		new("Groceries asd", "Supermarket"),
+		new("Transport", "Bus pass"),
+		new("Coffee", "Morning espresso"),
+		new("Rent", "Monthly rent"),
+		new("Internet", "Fiber plan")
 	];
 
-	private CategoryCreateDto[] Overviews { get; init; } = [new("Entradas", "ganhos mensais", [new (1000)]), new("Saídas", "gastos mensais", [new (1000)])];
+	private CategoryCreateDto[] Overviews { get; init; } = [new("Entradas", "ganhos mensais"), new("Saídas", "gastos mensais")];
 
 	public MainPage()
 	{
