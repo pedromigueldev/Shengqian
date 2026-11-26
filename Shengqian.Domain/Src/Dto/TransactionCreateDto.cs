@@ -15,14 +15,6 @@ public partial record TransactionCreateDto(
     DateTime TransactionDate
 );
 
-public partial record TransactionGetAllDto(
-    TransactionId Id,
-    decimal Amount, 
-    string Description,
-    DateTime TransactionDate,
-    List<Category> Categories
-);
-
 public static partial class DtoMapper
 {
     extension (TransactionCreateDto transactionCreateDto)
@@ -34,11 +26,5 @@ public static partial class DtoMapper
                 transactionCreateDto.Description, 
                 category, 
                 transactionCreateDto.TransactionDate);
-    }
-
-    extension (Transaction transaction)
-    {
-        public TransactionGetAllDto ToGetAllDto () =>
-            new (transaction.Id, transaction.Amount, transaction.Description, transaction.Date, [.. transaction.Categories]);
     }
 }

@@ -8,7 +8,7 @@ using Shengqian.Domain.Extensions;
 using Shengqian.Extensions;
 using SmartCtor.Monadics;
 
-namespace Shengqian.Controllers;
+namespace Shengqian.Backend.Controllers;
 
 [ApiController]
 [Route("[controller]")]
