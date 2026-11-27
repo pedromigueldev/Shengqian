@@ -1,10 +1,7 @@
 
-using System.ComponentModel.DataAnnotations;
 using SmartCtor.Attribute;
-using Shengqian.Domain;
-using SmartCtor.Monadics;
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using Shengqian.Domain.Model;
 
 namespace Shengqian.Domain.Dto;
 
@@ -19,11 +16,10 @@ public partial record CategoryGetAllDto(
 public static partial class DtoMapper {
     extension (Category category) {
         public CategoryGetAllDto ToGetAllDto () => 
-            new(category.Id, category.Name, category.Description, [.. category.Transactions.Select(DtoMapper.ToGetAllDto)]);
+            new(category.Id, category.Name, category.Description, [.. category.Transactions.Select(ToGetAllDto)]);
     }
 }
 
-[JsonSourceGenerationOptions(JsonSerializerDefaults.Web)]
 [JsonSerializable(typeof(List<CategoryGetAllDto>))]
 [JsonSerializable(typeof(CategoryGetAllDto))]
 internal partial class SourceGenerationContext : JsonSerializerContext { }

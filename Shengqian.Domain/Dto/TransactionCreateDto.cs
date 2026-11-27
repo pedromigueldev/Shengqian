@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Shengqian.Domain;
+using Shengqian.Domain.Model;
 using SmartCtor.Attribute;
 using SmartCtor.Monadics;
 

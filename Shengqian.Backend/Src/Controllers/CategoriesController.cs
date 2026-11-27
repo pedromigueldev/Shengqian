@@ -6,6 +6,7 @@ using Shengqian.AppDbContext;
 using Shengqian.Domain;
 using Shengqian.Domain.Dto;
 using Shengqian.Domain.Extensions;
+using Shengqian.Domain.Model;
 using Shengqian.Extensions;
 
 namespace Shengqian.Backend.Controllers;

@@ -9,7 +9,7 @@
 #:package Microsoft.EntityFrameworkCore.Sqlite@11.0.0
 
 #:include Src/**/*.cs
-#:include ../Shengqian.Domain/Shengqian.Domain.cs
+#:project ../Shengqian.Domain/Shengqian.Domain.csproj
 
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;

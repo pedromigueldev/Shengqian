@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using SmartCtor.Attribute;
 
-namespace Shengqian.Domain;
+namespace Shengqian.Domain.Model;
 
 [SmartCtor]
 public partial record CategoryId([Range(minimum: 0, maximum: int.MaxValue)] int Key);

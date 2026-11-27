@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Shengqian.Domain;
+using Shengqian.Domain.Model;
 
 namespace Shengqian.AppDbContext;
 

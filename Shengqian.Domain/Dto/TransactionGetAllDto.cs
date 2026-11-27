@@ -1,4 +1,6 @@
 
+using Shengqian.Domain.Model;
+
 namespace Shengqian.Domain.Dto;
 public partial record TransactionGetAllDto(
     TransactionId Id,

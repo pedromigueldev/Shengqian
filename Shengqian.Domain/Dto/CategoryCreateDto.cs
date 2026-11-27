@@ -1,8 +1,10 @@
 
 using System.ComponentModel.DataAnnotations;
 using SmartCtor.Attribute;
-using Shengqian.Domain;
 using SmartCtor.Monadics;
+using Shengqian.Domain.Model;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Shengqian.Domain.Dto;
 
