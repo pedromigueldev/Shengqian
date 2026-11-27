@@ -1,19 +1,6 @@
-#!/usr/bin/env -S dotnet --
-
-#:sdk Microsoft.NET.Sdk.Web
-#:property TargetFramework=net11.0
-#:property PublishAot=false
-
-#:package Microsoft.AspNetCore.OpenApi@11.0.0
-#:package Microsoft.EntityFrameworkCore.Design@11.0.0
-#:package Microsoft.EntityFrameworkCore.Sqlite@11.0.0
-
-#:include Src/**/*.cs
-#:project ../Shengqian.Domain/Shengqian.Domain.csproj
-
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;
-using Shengqian.Extensions;
+using Shengqian.Backend.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()

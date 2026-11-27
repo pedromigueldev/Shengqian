@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shengqian.AppDbContext;
 using Shengqian.Domain.Dto;
-using Shengqian.Domain.Extensions;
 using Shengqian.Domain.Model;
-using Shengqian.Extensions;
+using Shengqian.Backend.Extensions;
 using SmartCtor.Monadics;
 
 namespace Shengqian.Backend.Controllers;

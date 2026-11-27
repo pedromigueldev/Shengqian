@@ -1,6 +1,6 @@
 using SmartCtor.Monadics;
 
-namespace Shengqian.Extensions;
+namespace Shengqian.Backend.Extensions;
 
 using System.Reflection;
 using System.Text.Json;

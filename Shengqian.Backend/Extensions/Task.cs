@@ -1,7 +1,7 @@
 
 using SmartCtor.Monadics;
 
-namespace Shengqian.Extensions;
+namespace Shengqian.Backend.Extensions;
 
 public readonly record struct TaskFail(Exception Exception);
 

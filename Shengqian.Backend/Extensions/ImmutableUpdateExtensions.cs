@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Shengqian.Extensions;
+namespace Shengqian.Backend.Extensions;
 
 public static class ImmutableUpdateExtensions
 {

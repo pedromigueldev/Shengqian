@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Shengqian.Domain.Extensions;
+namespace Shengqian.Backend.Extensions;
 public static class ListValidationResultsExt
 {
     public static ActionResult ToValidationProblem(
