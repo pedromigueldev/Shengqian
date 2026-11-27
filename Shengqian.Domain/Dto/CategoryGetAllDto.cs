@@ -22,4 +22,4 @@ public static partial class DtoMapper {
 
 [JsonSerializable(typeof(List<CategoryGetAllDto>))]
 [JsonSerializable(typeof(CategoryGetAllDto))]
-internal partial class SourceGenerationContext : JsonSerializerContext { }
+public partial class SourceGenerationContext : JsonSerializerContext { }

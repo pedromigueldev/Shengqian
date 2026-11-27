@@ -4,6 +4,7 @@
     <Project Path="Shengqian.Vendor/SmartCtor/SmartCtor.CtorGenerator/SmartCtor.CtorGenerator.csproj" />
     <Project Path="Shengqian.Vendor/SmartCtor/SmartCtor.Monadics/SmartCtor.Monadics.csproj" />
   </Folder>
+  <Project Path="Shengqian.Android/Shengqian.Android.csproj" />
   <Project Path="Shengqian.Backend/Shengqian.Backend.csproj" />
   <Project Path="Shengqian.Domain/Shengqian.Domain.csproj" />
 </Solution>
