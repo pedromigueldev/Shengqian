@@ -4,9 +4,9 @@ using Shengqian.Domain.Dto;
 public readonly record struct CardData(string Title, string Description, string Detail);
 
 public static class ModelImpl {
-    extension(CategoryCreateDto self) {
+    extension(CategoryGetAllDto self) {
         public CardData ToCardIitem () {
-            return new CardData (self.Name, self.Description, $"{10} transactions");
+            return new CardData (self.Name, self.Description, $"{self.Transactions.Count} transactions");
         }
     }
 }

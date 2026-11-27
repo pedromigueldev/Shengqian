@@ -18,5 +18,9 @@
 
 		<!-- XAML pages (source generator only runs on MauiXaml items) -->
 		<MauiXaml Include="Src\**\*.xaml" />
+
+		<!-- App settings (appsettings.Local.json is git-ignored and overrides appsettings.json in Debug) -->
+		<EmbeddedResource Include="appsettings.json" LogicalName="appsettings.json" />
+		<EmbeddedResource Include="appsettings.Local.json" LogicalName="appsettings.Local.json" Condition="'$(Configuration)' == 'Debug' And Exists('appsettings.Local.json')" />
 	</ItemGroup>
 </Project>

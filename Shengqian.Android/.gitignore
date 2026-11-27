@@ -3,6 +3,7 @@ bin/
 obj/
 
 # User-specific files
+appsettings.Local.json
 .vs/
 *.user
 *.suo
