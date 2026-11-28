@@ -17,6 +17,9 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+			
+		AddEmbeddedJson(builder.Configuration, "appsettings.json");
+		AddEmbeddedJson(builder.Configuration, "appsettings.Local.json");
 
 		var apiBaseUrl = builder.Configuration["Api:BaseUrl"]
 			?? throw new InvalidOperationException("Api:BaseUrl is missing from appsettings.json");
